@@ -140,9 +140,6 @@ const drawBall = () => {
   context.arc(ball.pos.x, ball.pos.y, ball.radius, 0, 2 * Math.PI, false);
   context.fillStyle = ball.color;
   context.fill();
-  context.lineWidth = 1;
-  context.strokeStyle = ball.color;
-  context.stroke();
 };
 
 const drawPlayerOne = () => {
