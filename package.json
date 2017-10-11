@@ -1,0 +1,23 @@
+{
+  "name": "tetra-pong",
+  "version": "0.0.1",
+  "description": "A remake of the classic Pong game with a twist",
+  "main": "pong.js",
+  "scripts": {
+    "test": "npx mocha test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernandocanizo/tetra-pong.git"
+  },
+  "keywords": [
+    "game",
+    "pong"
+  ],
+  "author": "Fernando L. Canizo <fernandocanizo@gmail.com>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/fernandocanizo/tetra-pong/issues"
+  },
+  "homepage": "https://github.com/fernandocanizo/tetra-pong#readme"
+}
