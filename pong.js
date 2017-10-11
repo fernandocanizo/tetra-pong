@@ -10,24 +10,24 @@ let context = null;
 
 const keydown = () => {};
 
-const dot = {
-  x: 0,
-  y: 0,
-};
+const pointFactory = () => Object.assign({}, { x: 0, y: 0 });
 
 const ball = {
-  pos: Object.assign({}, dot),
-  vel: Object.assign({}, dot),
+  pos: pointFactory(),
+  vel: pointFactory(),
 };
 
-const pad = {
-  pos: Object.assign({}, dot),
-  vel: Object.assign({}, dot),
-  size: Object.assign({}, dot),
+const playerOne = {
+  pos: pointFactory(),
+  vel: pointFactory(),
+  size: pointFactory(),
 };
 
-const playerOne = Object.assign({}, pad);
-const playerTwo = Object.assign({}, pad);
+const playerTwo = {
+  pos: pointFactory(),
+  vel: pointFactory(),
+  size: pointFactory(),
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper functions
