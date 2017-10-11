@@ -3,6 +3,7 @@
 const framesPerSecond = 30;
 const defaultWidth = 800;
 const defaultHeight = 600;
+const defaultBallRadius = 10;
 
 let playGround = null;
 let context = null;
@@ -16,40 +17,17 @@ const dot = {
 
 const ball = {
   pos: Object.assign({}, dot),
-  vel: {
-    x: Math.floor(Math.random() * 5),
-    y: Math.floor(Math.random() * 5),
-  },
-  color: 'red',
-  radius: 10,
+  vel: Object.assign({}, dot),
 };
 
 const pad = {
   pos: Object.assign({}, dot),
   vel: Object.assign({}, dot),
-  color: 'white',
-  size: {
-    x: 10,
-    y: 50,
-  },
-  side: null,
+  size: Object.assign({}, dot),
 };
 
-const playerOne = Object.assign({}, pad, {
-  side: 'left',
-  pos: {
-    x: 0,
-    y: Math.floor(Math.random() * defaultHeight),
-  },
-});
-
-const playerTwo = Object.assign({}, pad, {
-  side: 'right',
-  pos: {
-    x: defaultWidth,
-    y: Math.floor(Math.random() * defaultHeight),
-  },
-});
+const playerOne = Object.assign({}, pad);
+const playerTwo = Object.assign({}, pad);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Helper functions
@@ -57,7 +35,50 @@ const playerTwo = Object.assign({}, pad, {
 
 const middle = (width, height) => ({ x: width / 2, y: height / 2 });
 
-const xPosBySide = (pad) => 'left' === pad.side ? 0 : context.canvas.width;
+////////////////////////////////////////////////////////////////////////////////
+// Initialization
+////////////////////////////////////////////////////////////////////////////////
+
+const initPlayerOne = () => {
+  playerOne.pos.x = 0;
+  playerOne.pos.y = Math.floor(Math.random() * playGround.height);
+  playerOne.vel.x = 0;
+  playerOne.vel.y = 0;
+  playerOne.color = 'red';
+  playerOne.size = {
+    x: 10,
+    y: 100,
+  };
+  playerOne.side = 'left';
+};
+
+const initPlayerTwo = () => {
+  playerTwo.pos.x = playGround.width - playerTwo.size.x;
+  playerTwo.pos.y = Math.floor(Math.random() * playGround.height);
+  playerTwo.vel.x = 0;
+  playerTwo.vel.y = 0;
+  playerTwo.color = 'blue';
+  playerTwo.size = {
+    x: 10,
+    y: 100,
+  };
+  playerTwo.side = 'right';
+};
+
+const initBall = () => {
+  ball.pos.x = Math.floor(Math.random() * (playGround.width / 2));
+  ball.pos.y = Math.floor(Math.random() * (playGround.height / 2));
+  ball.vel.x = Math.floor(Math.random() * 10) + 3;
+  ball.vel.y = Math.floor(Math.random() * 10) + 3;
+  ball.color = 'yellow';
+  ball.radius = defaultBallRadius;
+};
+
+const initGame = () => {
+  initBall();
+  initPlayerOne();
+  initPlayerTwo();
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Movement functions
@@ -78,17 +99,17 @@ const moveEverything = () => {
 // Draw functions
 ////////////////////////////////////////////////////////////////////////////////
 
-const drawNet = () => {};
-
 const drawBackground = () => {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   context.fillStyle = 'black';
   context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 };
 
+const drawNet = () => {};
+
 const drawScore = () => {};
 
-const drawBall = (ball) => {
+const drawBall = () => {
   context.beginPath();
   context.arc(ball.pos.x, ball.pos.y, ball.radius, 0, 2 * Math.PI, false);
   context.fillStyle = ball.color;
@@ -98,20 +119,21 @@ const drawBall = (ball) => {
   context.stroke();
 };
 
-const drawPad = (pad) => {
-  context.fillStyle = pad.color;
-  context.fillRect(xPosBySide(pad), pad.pos.y, pad.size.x, pad.size.y);
+const drawPlayerOne = () => {
+  context.fillStyle = playerOne.color;
+  context.fillRect(0, playerOne.pos.y, playerOne.size.x, playerOne.size.y);
 };
 
-const drawLeftPad = () => {};
-
-const drawRightPad = () => {};
+const drawPlayerTwo = () => {
+  context.fillStyle = playerTwo.color;
+  context.fillRect(playGround.width - playerTwo.size.x, playerTwo.pos.y, playerTwo.size.x, playerTwo.size.y);
+};
 
 const drawEverything = () => {
   drawBackground();
-  drawBall(ball);
-  drawPad(playerOne);
-  drawPad(playerTwo);
+  drawBall();
+  drawPlayerOne();
+  drawPlayerTwo();
 };
 
 const updateCanvasSize = () => {
@@ -143,6 +165,7 @@ const game = () => {
 const main = () => {
   playGround = document.getElementById('playGround');
   context = playGround.getContext('2d');
+  initGame();
   document.addEventListener('keydown', keydown);
   setInterval(() => game(), 1000 / framesPerSecond);
 };
