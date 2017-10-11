@@ -89,13 +89,34 @@ const initGame = () => {
 // Movement functions
 ////////////////////////////////////////////////////////////////////////////////
 
+const moveBall = () => {
+  ball.pos.x += ball.vel.x;
+  ball.pos.y += ball.vel.y;
+
+  if (ball.pos.x - ball.radius < 0) {
+    ball.pos.x = ball.radius;
+    ball.vel.x = -ball.vel.x;
+  } else if (ball.pos.x + ball.radius > playGround.width) {
+    ball.pos.x = playGround.width - ball.radius;
+    ball.vel.x = -ball.vel.x;
+  }
+
+  if (ball.pos.y - ball.radius < 0) {
+    ball.pos.y = ball.radius;
+    ball.vel.y = -ball.vel.y;
+  } else if (ball.pos.y + ball.radius > playGround.height) {
+    ball.pos.y = playGround.height - ball.radius;
+    ball.vel.y = -ball.vel.y;
+  }
+};
+
 const moveCharacter = (c) => {
   c.pos.x += c.vel.x;
   c.pos.y += c.vel.y;
 };
 
 const moveEverything = () => {
-  moveCharacter(ball);
+  moveBall();
   moveCharacter(playerOne);
   moveCharacter(playerTwo);
 };
