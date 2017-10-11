@@ -66,8 +66,11 @@ const initPlayerTwo = () => {
 };
 
 const initBall = () => {
-  ball.pos.x = Math.floor(Math.random() * (playGround.width / 2));
-  ball.pos.y = Math.floor(Math.random() * (playGround.height / 2));
+  const xCenter = playGround.width / 2;
+  const yCenter = playGround.height / 2;
+
+  ball.pos.x = Math.floor(xCenter + Math.random() * (xCenter / 2));
+  ball.pos.y = Math.floor(yCenter + Math.random() * (yCenter / 2));
   ball.vel.x = Math.floor(Math.random() * 10) + 3;
   ball.vel.y = Math.floor(Math.random() * 10) + 3;
   ball.color = 'yellow';
@@ -165,6 +168,7 @@ const game = () => {
 const main = () => {
   playGround = document.getElementById('playGround');
   context = playGround.getContext('2d');
+  updateCanvasSize();
   initGame();
   document.addEventListener('keydown', keydown);
   setInterval(() => game(), 1000 / framesPerSecond);
